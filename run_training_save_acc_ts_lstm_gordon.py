@@ -29,10 +29,10 @@ criterion = nn.BCELoss()  # CrossEntropyLoss()
 # state_dict = torch.load('checkpoint.pth')
 # net.load_state_dict(state_dict)
 
-train_data = np.load('data/train_data_1.npy')
-train_label = np.load('data/train_label_1.npy')
-test_data = np.load('data/test_data_1.npy')
-test_label = np.load('data/test_label_1.npy')
+train_data = np.load('data/gordon_train_data_1.npy')
+train_label = np.load('data/gordon_train_label_1.npy')
+test_data = np.load('data/gordon_test_data_1.npy')
+test_label = np.load('data/gordon_test_label_1.npy')
 
 print(train_data.shape)
 
@@ -48,10 +48,10 @@ for window_size in [50, 75, 100]: # [16, 32, 64, 128, 256, 512, 1200]:
         print('Window Size {}, Fold {}'.format(W, fold))
         print('-' * 80)
         best_test_acc_curr_fold = 0
-        train_data = np.load('data/train_data_' + str(fold) + '.npy')
-        train_label = np.load('data/train_label_' + str(fold) + '.npy')
-        test_data = np.load('data/test_data_' + str(fold) + '.npy')
-        test_label = np.load('data/test_label_' + str(fold) + '.npy')
+        train_data = np.load('data/gordon_train_data_' + str(fold) + '.npy')
+        train_label = np.load('data/gordon_train_label_' + str(fold) + '.npy')
+        test_data = np.load('data/gordon_test_data_' + str(fold) + '.npy')
+        test_label = np.load('data/gordon_test_label_' + str(fold) + '.npy')
 
         net = fMRI_LSTM(train_data.shape[0], 48, 1, batch_size=batch_size)
         net.to(device)
