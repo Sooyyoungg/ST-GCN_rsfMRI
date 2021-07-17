@@ -104,16 +104,16 @@ def train_xgboost(train_data, test_data, train_label, test_label):
     
 
 
-    with open('output/xgboost_baseline/testing_output.txt', 'w') as f:
+    with open('output/xgboost_baseline/testing_output_gaussian.txt', 'w') as f:
         f.truncate(0)
 
-    with open('output/xgboost_baseline/testing_output.txt', 'a') as f:
+    with open('output/xgboost_baseline/testing_output_gaussian.txt', 'a') as f:
         f.write("Accuracy: {}\n".format(acc_test))
      
         
 if __name__ == '__main__':
-    train_data = np.load('./data/train_data_baseline_1.npy')
-    test_data = np.load('./data/test_data_baseline_1.npy')
+    train_data = np.load('./data/train_data_baseline_1_gaussian.npy')
+    test_data = np.load('./data/test_data_baseline_1_gaussian.npy')
     train_label = np.load('/scratch/bigdata/ABCD/abcd-fmriprep-rs/ST-GCN-data/harvardoxford/harvardoxford_train_label_1.npy')
     test_label = np.load('/scratch/bigdata/ABCD/abcd-fmriprep-rs/ST-GCN-data/harvardoxford/harvardoxford_test_label_1.npy')
     #train(train_data, test_data, train_label, test_label)
