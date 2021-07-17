@@ -39,7 +39,7 @@ print(train_data.shape)
 ###### start training model
 training_loss = 0.0
 
-for window_size in [50, 75, 100]: # [16, 32, 64, 128, 256, 512, 1200]:
+for window_size in [50, 75, 100, 256, 383]:
     W = window_size
     final_testing_accuracy = 0
     testing_acc_curr_fold = []
