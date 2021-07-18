@@ -28,7 +28,7 @@ def train(train_data, test_data, train_label, test_label):
     train_label = torch.from_numpy(train_label).float().to(device)
     test_label = torch.from_numpy(test_label).float().to(device)
     print(train_label)
-    model = mlp(train_data.shape[1])
+    model = mlp(train_data.shape[1]).to(device)
     loss = nn.BCELoss()
     optimizer = optim.SGD(model.parameters(), lr=0.01)
     n_epochs = 20000
@@ -45,10 +45,10 @@ def train(train_data, test_data, train_label, test_label):
         model.zero_grad()
         pred_probs = model(train_data)
         y_pred = pred_probs > 0.5
-        loss_val = loss(pred_probs, train_label)
+        loss_val = loss(pred_probs.squeeze(), train_label)
         loss_val.backward()
         optimizer.step()
-        acc = accuracy_score(train_label, y_pred)
+        acc = accuracy_score(train_label.detach().cpu(), y_pred.detach().cpu())
         print("Epoch: {}, Loss: {}, Accuracy: {}".format(epoch, loss_val, acc))
         with open('output/mlp_baseline/training_output.txt', 'a') as f:
             f.write("Epoch: {} Loss: {} Accuracy: {}\n".format(epoch, loss_val, acc))
@@ -59,8 +59,8 @@ def train(train_data, test_data, train_label, test_label):
             with torch.no_grad():
                 pred_prob_test = model(test_data)
                 y_pred_test = pred_prob_test > 0.5
-                loss_val_test = loss(pred_prob_test, test_label)
-                acc_test = accuracy_score(test_label, y_pred_test)
+                loss_val_test = loss(pred_prob_test.squeeze(), test_label)
+                acc_test = accuracy_score(test_label.detach().cpu(), y_pred_test.detach().cpu())
 
                 print("Epoch: {}, Loss: {}, Accuracy: {}".format(epoch, loss_val_test, acc_test))
             with open('output/mlp_baseline/testing_output.txt', 'a') as f:
@@ -70,8 +70,8 @@ def train(train_data, test_data, train_label, test_label):
         #if epoch
 
 if __name__ == '__main__':
-    train_data = np.load('data/train_data_1200_1_mlp.npy')
-    test_data = np.load('data/test_data_1200_1_mlp.npy')
-    train_label = np.load('data/train_label_1200_1.npy')
-    test_label = np.load('data/test_label_1200_1.npy')
+    train_data = np.load('data/train_data_baseline_1_abs.npy')
+    test_data = np.load('data/test_data_baseline_1_abs.npy')
+    train_label = np.load('/scratch/bigdata/ABCD/abcd-fmriprep-rs/ST-GCN-data/harvardoxford/harvardoxford_train_label_1.npy')
+    test_label = np.load('/scratch/bigdata/ABCD/abcd-fmriprep-rs/ST-GCN-data/harvardoxford/harvardoxford_test_label_1.npy')
     train(train_data, test_data, train_label, test_label)
